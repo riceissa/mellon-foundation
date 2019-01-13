@@ -18,10 +18,10 @@ See https://mellon.org/grants/grants-database/advanced-search/ for data source.
 # and set the correct max_page. Run the script without arguments to see an
 # explanation.
 ./scrape.py  # Print instructions
-./scrape.py 657 out-2019-01-13.csv  # get pages [1, 657] and store in the CSV
+./scrape.py 657 data-2019-01-13.csv  # get pages [1, 657] and store in the CSV
 
 # Once you have the CSV, run proc.py
-./proc.py out-2019-01-13.csv > out-2019-01-13.sql
+./proc.py data-2019-01-13.csv > data-2019-01-13.sql
 ```
 
 ## License
