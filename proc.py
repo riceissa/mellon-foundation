@@ -12,6 +12,8 @@ def main():
     with open(sys.argv[1], "r") as f:
         reader = csv.DictReader(f)
 
+        total_amount = 0
+
         print("""insert into donations (donor, donee, amount, donation_date,
         donation_date_precision, donation_date_basis, cause_area, url,
         donor_cause_area_url, notes, affected_countries, affected_states,
@@ -25,7 +27,7 @@ def main():
             donation_date = datetime.datetime.strptime(row['grant_date'],
                                                        "%Y-%m-%d %H:%M:%S")
             notes = "Program name: %s" % row["program"]
-            int(amount)  # see if it can be converted to int
+            total_amount += int(amount)
             print(("    " if first else "    ,") + "(" + ",".join([
                 mysql_quote("Andrew W. Mellon Foundation"),  # donor
                 mysql_quote(row['grantee']),  # donee
@@ -44,6 +46,7 @@ def main():
             ]) + ")")
             first = False
         print(";")
+        print("Total grant amount: ${:,} (compare with amount listed on foundation website)".format(total_amount), file=sys.stderr)
 
 def mysql_quote(x):
     '''
