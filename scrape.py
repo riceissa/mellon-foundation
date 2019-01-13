@@ -15,8 +15,8 @@ def main():
               "where\n"
               "  * max_page is an integer that specifies the last page of\n"
               "    grants (e.g. if menu says Page 1 of 657, then max_page\n"
-              "    is 657)"
-              "  * outfile is the file in which to store the output (a CSV)\n")
+              "    is 657)\n"
+              "  * outfile is the file in which to store the output (a CSV)")
         sys.exit()
 
     page = 1
@@ -40,7 +40,7 @@ def main():
             headers_found = list(map(lambda x: x.text.strip(), table.find_all("th")))
             headers_expected = ['Grantee', 'Project', 'Date', 'Amount', 'Location',
                                 'Program']
-            assert headers == headers_expected
+            assert headers_found == headers_expected
             # Build header access map so that we can say cells[h[key]] rather than
             # cells[idx]
             h = {key: idx for idx, key in enumerate(headers_expected)}
@@ -49,14 +49,14 @@ def main():
             for row in table.find_all("tr")[1:]:
                 cells = row.find_all("td")
                 grantee = cells[h["Grantee"]].text.strip()
-                grantee_url = cells[h["Grantee"]].get("href").strip()
+                grantee_url = cells[h["Grantee"]].a.get("href").strip()
                 project = cells[h["Project"]].text.strip()
-                project_url = cells[h["Project"]].get("href").strip()
-                grant_date = datetime.datetime.strptime("%m/%d/%y",
-                                                        cells[h["Date"]].text.strip())
+                project_url = cells[h["Project"]].a.get("href").strip()
+                grant_date = datetime.datetime.strptime(cells[h["Date"]].text.strip(),
+                                                        "%m/%d/%y")
                 amount = cells[h["Amount"]].text.strip()
-                location = cells[h["Location"]].text.replace()
-                program = cells[h["Program"]].text.replace()
+                location = cells[h["Location"]].text.strip()
+                program = cells[h["Program"]].text.strip()
 
                 writer.writerow({
                     "grantee": grantee,
