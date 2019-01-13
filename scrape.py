@@ -35,7 +35,7 @@ def main():
             r = requests.get(url)
             soup = BeautifulSoup(r.content, "lxml")
             tables = soup.find_all("table", {"class": "grant-list"})
-            assert len(tables) == 1, "Error: More than one grants table found"
+            assert len(tables) == 1, "Error: there must be exactly one grants table on the page"
             table = tables[0]
 
             headers_found = list(map(lambda x: x.text.strip(), table.find_all("th")))
