@@ -30,6 +30,7 @@ def main():
         writer.writeheader()
 
         while page <= max_page:
+            print("On page " + str(page), file=sys.stderr)
             url = url_base + str(page)
             r = requests.get(url)
             soup = BeautifulSoup(r.content, "lxml")
